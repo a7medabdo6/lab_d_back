@@ -9,7 +9,7 @@ var path = require("path");
 const { validationResult } = require("express-validator");
 
 const postVisit = async (req, res) => {
-  const file = `${config.domain}/${req.file?.path ? req.file.path : null}`;
+  const file = `${config.domain}/${req.file ? req.file.path :null }`;
   console.log(file, "prescription");
   if (req.hasOwnProperty("fileValidationError")) {
     return res.status(400).json({ errors: [req.fileValidationError] });
@@ -27,7 +27,7 @@ const postVisit = async (req, res) => {
       address,
       phone_Number,
       purpose,
-      file: req.file?.path ? file : null,
+      file: req.file ?req.file.path :null? file : null,
     });
     res.status(200).send(visit);
   } catch (e) {
@@ -62,7 +62,7 @@ const deleteVisit = async (req, res) => {
     console.log(id, "id");
     let foundedvisit = await Visit.findAll({ where: { id } });
 
-    if (foundedvisit[0]?.file) {
+    if (foundedvisit[0] ? foundedvisit[0].file:false) {
       const myArray = foundedvisit[0].file.split("/");
       console.log(myArray, "myArray");
       fs.unlink(
