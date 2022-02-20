@@ -35,11 +35,11 @@ const RegisterUser = async (req, res) => {
     // await user.save();
     console.log(req.user, "req.user.id");
 
-    if (req.user?.role == "employer") {
+    if (req.user?req.user.role:"" == "employer") {
       return res.status(400).json({
         errors: [{ msg: "you are not allowed to create another employers " }],
       });
-    } else if (req.user?.role == "leader") {
+    } else if (req.user?req.user.role:""== "leader") {
       user = await User.create({
         name,
         email,
@@ -53,7 +53,7 @@ const RegisterUser = async (req, res) => {
         name,
         email,
         role,
-        createdBy: req.user?.id,
+        createdBy: req.user?req.user.id:"",
         nameofParentUser: req.user.name,
 
         password,
