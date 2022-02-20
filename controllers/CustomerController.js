@@ -15,13 +15,13 @@ const postCustomer = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(req.files, "filllllll");
-    if (req.files?.customer_image) {
+    if (req.files ? req.files.customer_image:false) {
       fs.unlink(
         path.join(__dirname, "/../", req.files.customer_image[0].path),
         (err) => console.log(err)
       );
     }
-    if (req.files?.customer_report) {
+    if (req.files? req.files.customer_report:false) {
       fs.unlink(
         path.join(__dirname, "/../", req.files.customer_report[0].path),
         (err) => console.log(err)
@@ -56,7 +56,7 @@ const postCustomer = async (req, res) => {
     refDoctor,
   } = req.body;
   console.log(req.files, "ress");
-  const customer_image = `${config.domain}/public/images/${req.files.customer_image[0]?.filename}`;
+  const customer_image = `${config.domain}/public/images/${req.files.customer_image[0]? req.files.customer_image[0].filename:null}`;
   console.log(
     username_ar,
     username_en,
@@ -79,7 +79,7 @@ const postCustomer = async (req, res) => {
     refDoctor
   );
   const customer_report = `${config.domain}/public/images/${
-    req.files.customer_report ? req.files.customer_report[0]?.filename : ""
+    req.files.customer_report[0] ? req.files.customer_report[0].filename : ""
   }`;
   console.log(customer_report, "customer_report");
   try {
@@ -252,7 +252,7 @@ const deletemany = async (req, res) => {
 const addExternalReport = async (req, res) => {
   const { nameofExternalReport } = req.body;
   const customer_external_report = `${config.domain}/${
-    req.file?.path ? req.file.path : null
+    req.file ? req.file.path:null ? req.file.path : null
   }`;
   console.log(customer_external_report, "customer_external_report");
   const customer_id = req.query.customer_id;
@@ -293,13 +293,13 @@ const findallandUpdate = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     // console.log(req.files, "filllllll");
-    if (req.files?.customer_image) {
+    if (req.files ? req.files.customer_image:null) {
       fs.unlink(
         path.join(__dirname, "/../", req.files.customer_image[0].path),
         (err) => console.log(err)
       );
     }
-    if (req.files?.customer_report) {
+    if (req.files ? req.files.customer_report:null) {
       fs.unlink(
         path.join(__dirname, "/../", req.files.customer_report[0].path),
         (err) => console.log(err)
@@ -307,10 +307,10 @@ const findallandUpdate = async (req, res) => {
     }
     return res.status(400).json({ errors: errors.array() });
   }
-  const customer_image = `${config.domain}/public/images/${req.files.customer_image[0]?.filename}`;
+  const customer_image = `${config.domain}/public/images/${req.files.customer_image[0] ? req.files.customer_image[0].filename:null}`;
 
   const customer_report = `${config.domain}/public/images/${
-    req.files.customer_report ? req.files.customer_report[0]?.filename : ""
+    req.files.customer_report[0] ? req.files.customer_report[0].filename : ""
   }`;
   var {
     username_ar,
